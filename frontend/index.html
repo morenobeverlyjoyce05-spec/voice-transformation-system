@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Multi-Mode Voice Transformation</title>
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<header>
+  <div class="logo"><div class="dot">🎙</div>Voice Transformation System</div>
+  <nav><a href="#studio">Studio</a><a href="#how">How it works</a><a class="btn" href="#studio">Try it free</a></nav>
+</header>
+
+<section class="hero">
+  <span class="pill">✦ 100% free</span>
+  <h1>Change your voice in <span>seconds</span></h1>
+  <p>Upload audio, record with your mic, or go live in real time. Pick an effect and hear the transformation instantly.</p>
+  <a class="btn" href="#studio" style="border-radius:99px;padding:18px 40px">🎙 Start changing your voice</a>
+</section>
+
+<main class="card" id="studio">
+  <!-- STEP 1 -->
+  <div class="step"><b style="background:var(--o)">1</b><h2>Choose a mode</h2></div>
+  <div class="modes">
+    <button class="opt on" id="mFile"><span class="ic">📁</span><span><strong>Upload or record</strong><small>Drop an audio file or record a clip, then transform it.</small></span></button>
+    <button class="opt" id="mLive"><span class="ic">⚡</span><span><strong>Real time</strong><small>Speak into your mic and hear the effect almost live.</small></span></button>
+  </div>
+
+  <div id="fileIn">
+    <div class="drop" id="drop" tabindex="0" role="button" aria-label="Choose audio file">
+      <div class="ic">☁</div><b>Drag &amp; drop an audio file here</b>
+      <p>or click to browse — MP3, WAV, OGG, M4A and more</p>
+      <input type="file" id="file" accept="audio/*" hidden>
+    </div>
+    <div class="or">OR RECORD</div>
+    <button class="btn amber wide" id="recBtn">🎙 Record with microphone</button>
+    <p class="note" id="fileInfo">No audio yet.</p>
+  </div>
+
+  <div id="liveIn" class="hidden live">
+    <span class="badge" id="liveBadge">Mic off</span>
+    <div class="meter"><i id="meter"></i></div>
+    <button class="btn" id="liveBtn">🎙 Start real-time voice</button>
+    <p class="note">Use headphones to avoid echo. Python processes your voice in short chunks, so expect about a 1–2 second delay.</p>
+    <div id="liveOut" class="out hidden" style="margin-top:22px;text-align:left">
+      <h3>Your live session</h3>
+      <audio id="livePlayer" controls></audio>
+      <div class="row"><button class="btn" id="liveDl">Download WAV</button></div>
+      <p class="note">Recorded with the effect you used while speaking.</p>
+    </div>
+  </div>
+
+  <hr>
+  <!-- STEP 2 -->
+  <div class="step"><b style="background:var(--g)">2</b><h2>Pick an effect</h2></div>
+  <div class="fx" id="fx">
+    <button class="fxc on" data-fx="robot"><span class="ic">🤖</span><span><strong>Robot</strong><small>A robotic, synthetic voice with a mechanical pulse.</small></span></button>
+    <button class="fxc" data-fx="chipmunk"><span class="ic">🐿</span><span><strong>Chipmunk</strong><small>High-pitched and squeaky — instantly tiny and hilarious.</small></span></button>
+    <button class="fxc" data-fx="male"><span class="ic">👨</span><span><strong>Male</strong><small>A deeper, richer tone that lowers your voice.</small></span></button>
+    <button class="fxc" data-fx="female"><span class="ic">👩</span><span><strong>Female</strong><small>A brighter, higher tone that lifts your voice.</small></span></button>
+  </div>
+
+  <hr id="hr3">
+  <!-- STEP 3 -->
+  <div id="step3">
+    <div class="step"><b style="background:var(--a)">3</b><h2>Preview &amp; download</h2></div>
+    <div class="out">
+      <h3 id="outTitle">Robot voice</h3>
+      <p class="lbl">Before (original)</p>
+      <audio id="orig" controls></audio>
+      <p class="lbl">After (<span id="afterName">Robot</span> effect)</p>
+      <audio id="player" controls></audio>
+      <div class="row"><button class="btn" id="dl" disabled>Download WAV</button><button class="btn ghost" id="reset">↻ Start over</button></div>
+      <p class="note" id="outNote">Add an audio file or record your voice to create a preview.</p>
+    </div>
+    <div class="out" style="margin-top:20px">
+      <h3>Signal analysis</h3>
+      <div class="info" id="fxInfo"></div>
+      <p class="lbl" style="margin-top:18px">Waveform (Time Domain)</p>
+      <div class="ag"><div><small>Before</small><canvas id="wvA" width="700" height="130"></canvas></div><div><small>After</small><canvas id="wvB" width="700" height="130"></canvas></div></div>
+      <p class="lbl" style="margin-top:18px">Spectrogram (Frequency over Time, 0–8 kHz)</p>
+      <div class="ag"><div><small>Before</small><canvas id="spA" width="700" height="130"></canvas></div><div><small>After</small><canvas id="spB" width="700" height="130"></canvas></div></div>
+      <p class="lbl" style="margin-top:18px">Average Spectrum (FFT) <br>Gray: Before<br>Orange: After</p>
+      <div class="ag one"><canvas id="spec" width="1400" height="220"></canvas></div>
+      <p class="note" id="anNote">Analysis appears after you add audio.</p>
+    </div>
+  </div>
+</main>
+
+<section class="how" id="how">
+  <h2>How it works</h2><p>Three simple steps to a whole new voice</p>
+  <div class="three">
+    <div><span class="dot" style="background:#fde8dc;color:var(--a)">☁</span><h3>Choose a mode</h3><p>Upload a file, record a clip, or talk live in real time — no account needed.</p></div>
+    <div><span class="dot" style="background:#fde8dc;color:var(--a)">✦</span><h3>Pick an effect</h3><p>Robot, chipmunk, male, or female. The effect applies right away and you can switch anytime.</p></div>
+    <div><span class="dot" style="background:#fde8dc;color:var(--a)">⇩</span><h3>Download it</h3><p>Preview the result and save it as a high-quality WAV file.</p></div>
+  </div>
+</section>
+<footer><b>Voice Transformation System</b><span>Your audio is processed by a Python server on your own computer.</span><span><a href="#studio">Studio</a><a href="#how">How it works</a></span></footer>
+
+<script src="js/app.js"></script>
+</body>
+</html>
